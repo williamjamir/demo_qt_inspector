@@ -3,9 +3,10 @@ import sys
 import pkg_resources
 
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QIcon
+from PyQt5.QtGui import QIcon, QKeySequence, QColor
 from PyQt5.QtWidgets import (QAction, QApplication, QDesktopWidget, QDialog, QFileDialog,
-                             QHBoxLayout, QLabel, QMainWindow, QToolBar, QVBoxLayout, QWidget)
+                             QHBoxLayout, QLabel, QMainWindow, QToolBar, QVBoxLayout, QWidget,
+                             QShortcut, QPushButton, QFrame)
 
 
 class Template(QMainWindow):
@@ -19,7 +20,7 @@ class Template(QMainWindow):
         window_icon = pkg_resources.resource_filename('demo-qt-inspector.images',
                                                       'ic_insert_drive_file_black_48dp_1x.png')
         self.setWindowIcon(QIcon(window_icon))
-
+        self.initUI()
         self.widget = QWidget()
         self.layout = QHBoxLayout(self.widget)
 
@@ -27,12 +28,11 @@ class Template(QMainWindow):
         self.about_dialog = AboutDialog()
 
         self.status_bar = self.statusBar()
-        self.status_bar.showMessage('Ready', 5000)
+        self.status_bar.showMessage('Ready')
 
         self.file_menu()
         self.help_menu()
 
-        self.tool_bar_items()
 
     def file_menu(self):
         """Create a file submenu with an Open File item that opens a file dialog."""
@@ -41,7 +41,6 @@ class Template(QMainWindow):
         self.open_action = QAction('Open File', self)
         self.open_action.setStatusTip('Open a file into Template.')
         self.open_action.setShortcut('CTRL+O')
-        self.open_action.triggered.connect(self.open_file)
 
         self.exit_action = QAction('Exit Application', self)
         self.exit_action.setStatusTip('Exit the application.')
@@ -62,26 +61,45 @@ class Template(QMainWindow):
 
         self.help_sub_menu.addAction(self.about_action)
 
-    def tool_bar_items(self):
-        """Create a tool bar for the main window."""
-        self.tool_bar = QToolBar()
-        self.addToolBar(Qt.TopToolBarArea, self.tool_bar)
-        self.tool_bar.setMovable(False)
 
-        open_icon = pkg_resources.resource_filename('demo-qt-inspector.images',
-                                                    'ic_open_in_new_black_48dp_1x.png')
-        tool_bar_open_action = QAction(QIcon(open_icon), 'Open File', self)
-        tool_bar_open_action.triggered.connect(self.open_file)
+    def initUI(self):
 
-        self.tool_bar.addAction(tool_bar_open_action)
+        self.color = QColor(0, 0, 0)
+        self.square = QFrame(self)
+        self.square.setGeometry(150, 60, 150, 150)
+        self.square.setStyleSheet("QWidget {{ background-color: {0} }}".format(self.color.name()))
 
-    def open_file(self):
-        """Open a QFileDialog to allow the user to open a file into the application."""
-        filename, accepted = QFileDialog.getOpenFileName(self, 'Open File')
+        red_button = QPushButton('Red', self)
+        red_button.setCheckable(True)
+        red_button.move(10, 60)
 
-        if accepted:
-            with open(filename) as file:
-                file.read()
+        red_button.clicked[bool].connect(self.setColor)
+
+        green_button = QPushButton('Green', self)
+        green_button.setCheckable(True)
+        green_button.move(10, 120)
+
+        green_button.clicked[bool].connect(self.setColor)
+
+        blue_button = QPushButton('Blue', self)
+        blue_button.setCheckable(True)
+        blue_button.move(10, 180)
+
+        blue_button.clicked[bool].connect(self.setColor)
+
+
+    def setColor(self, pressed):
+        val = 255 if pressed else 0
+        source = self.sender()
+
+        if source.text() == "Red":
+            self.color.setRed(val)
+        elif source.text() == "Green":
+            self.color.setGreen(val)
+        else:
+            self.color.setBlue(val)
+
+        self.square.setStyleSheet("QFrame {{ background-color: {0} }}".format(self.color.name()))
 
 
 class AboutDialog(QDialog):
@@ -116,9 +134,47 @@ class AboutDialog(QDialog):
         self.setLayout(self.layout)
 
 
+class ConnectStyleSheetInspector(object):
+
+    def __init__(self, main_window, shortcut):
+        self.shortcut = shortcut
+        self.main_window = main_window
+        shortcut_ = QShortcut(self.shortcut, main_window)
+        shortcut_.setContext(Qt.ApplicationShortcut)
+
+        def ShowStyleSheetEditor():
+            style_sheet_inspector_class = GetStyleSheetInspectorClass()
+            style_sheet_inspector = [
+                c for c in self.main_window.children() if
+                isinstance(c, style_sheet_inspector_class)]
+            if style_sheet_inspector:
+                style_sheet_inspector = style_sheet_inspector[0]
+            else:
+                style_sheet_inspector = style_sheet_inspector_class(self.main_window)
+                style_sheet_inspector.setFixedSize(800, 600)
+            style_sheet_inspector.show()
+
+        shortcut_.activated.connect(ShowStyleSheetEditor)
+
+
+def GetStyleSheetInspectorClass():
+    """
+    Indirection mostly to simplify tests.
+    """
+    try:
+        from qt_style_sheet_inspector import StyleSheetInspector
+    except ImportError as error:
+        msg = 'You need to Install qt_style_sheet_inspector.'
+        raise RuntimeError(msg)
+    return StyleSheetInspector
+
+
 def main():
     application = QApplication(sys.argv)
     window = Template()
+
+    ConnectStyleSheetInspector(main_window=window,
+                               shortcut=QKeySequence(Qt.CTRL + Qt.SHIFT + Qt.Key_F12))
     desktop = QDesktopWidget().availableGeometry()
     width = (desktop.width() - window.width()) / 2
     height = (desktop.height() - window.height()) / 2
