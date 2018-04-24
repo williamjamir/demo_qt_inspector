@@ -6,7 +6,7 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon, QKeySequence, QColor
 from PyQt5.QtWidgets import (QAction, QApplication, QDesktopWidget, QDialog, QFileDialog,
                              QHBoxLayout, QLabel, QMainWindow, QToolBar, QVBoxLayout, QWidget,
-                             QShortcut, QPushButton, QFrame)
+                             QShortcut, QPushButton, QFrame, qApp)
 
 
 class Template(QMainWindow):
@@ -23,6 +23,11 @@ class Template(QMainWindow):
         self.initUI()
         self.widget = QWidget()
         self.layout = QHBoxLayout(self.widget)
+
+        print(qApp.styleSheet())
+
+        with open("theme.qss", mode="r") as theme_file:
+            qApp.setStyleSheet(theme_file.read())
 
         self.menu_bar = self.menuBar()
         self.about_dialog = AboutDialog()
