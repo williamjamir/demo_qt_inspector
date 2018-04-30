@@ -20,12 +20,36 @@ The repository demo_qt_inspector_ contains a full example of a Qt Application wi
 .. _demo_qt_inspector: https://github.com/williamjamir/demo_qt_inspector
 
 
-See the demo in action below.
+See the demo in action:
+
+.. image:: https://github.com/williamjamir/demo_qt_inspector/blob/williamjamir-patch-1/images/change_style.gif
+    :width: 10px
+    :height: 10px
+    :scale: 10 %
 
 
 
+Features
+--------
+view current style sheet of application during runtime
+^^^^^^^^^^^^^^^^^^^^^^^^
+    The inspector only checks for style sheets that was applied to the QApplication, since it's the topmost and any change here can be propagated to all child's. Therefore any style sheets that was applied to an individual widget will not appers on the inspector.
 
-* Free software: MIT license
+Style sheet can be changed in runtime, facilitating the process of designing a custom GUI
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    
+
+
+Search bar to help find specific types or names 
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    .. image:: https://github.com/williamjamir/demo_qt_inspector/blob/williamjamir-patch-1/images/search_small_480.gif
+        :width: 10px
+        :height: 10px
+        :scale: 10 %
+
+Can undo/redo changes
+^^^^^^^^^^^^^^^^^^^^^
+    
 
 
 Observation
@@ -36,10 +60,5 @@ unreliable (may be changed in the future).
 
  - The inspector only checks for style sheets that was applied to the QApplication, since it's the topmost and any change here can be propagated to all child's. Therefore any style sheets that was applied to an individual widget will not appers on the inspector.
 
-Features
---------
 
-* Can view current style sheet of application during runtime
-* Style sheet can be changed in runtime, facilitating the process of designing a custom GUI
-* Has a search bar to help find specific types or names
-* Can undo/redo changes
+* Free software: MIT license
