@@ -7,13 +7,13 @@ Qt Style Sheet Inspector
         :target: https://travis-ci.org/ESSS/qt_style_sheet_inspector
 
 
-A inspector widget to view and modify style sheet of a Qt app in runtime trough the style sheet that was applied on the QApplication.
+A inspector widget to view and modify style sheet of a Qt app in runtime.
 
 
 Usage
 -----
 
-In order to use the inspector widget on your application, it's necessary to initialize the class :code:`style_sheet_inspector_class` passing the instance of the :code:`QMainWindow` of your application.
+In order to use the inspector widget on your application, it's necessary to initialize the class :code:`style_sheet_inspector_class` passing the instance of the :code:`QMainWindow` from the application.
 
 The repository demo_qt_inspector_ contains a full example of a Qt Application with an inspector widget being called by a shortcut action.
 
