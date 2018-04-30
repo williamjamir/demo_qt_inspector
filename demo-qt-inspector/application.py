@@ -77,18 +77,21 @@ class Template(QMainWindow):
         red_button = QPushButton('Red', self)
         red_button.setCheckable(True)
         red_button.move(10, 60)
+        red_button.setObjectName("RedButton")
 
         red_button.clicked[bool].connect(self.setColor)
 
         green_button = QPushButton('Green', self)
         green_button.setCheckable(True)
         green_button.move(10, 120)
+        green_button.setObjectName("GreenButton")
 
         green_button.clicked[bool].connect(self.setColor)
 
         blue_button = QPushButton('Blue', self)
         blue_button.setCheckable(True)
         blue_button.move(10, 180)
+        blue_button.setObjectName("BlueButton")
 
         blue_button.clicked[bool].connect(self.setColor)
 
