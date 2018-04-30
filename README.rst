@@ -32,33 +32,42 @@ See the demo in action:
 Features
 --------
 view current style sheet of application during runtime
-^^^^^^^^^^^^^^^^^^^^^^^^
-    The inspector only checks for style sheets that was applied to the QApplication, since it's the topmost and any change here can be propagated to all child's. Therefore any style sheets that was applied to an individual widget will not appers on the inspector.
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Style sheet can be changed in runtime, facilitating the process of designing a custom GUI
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    The inspector only checks for style sheets that was applied to the QApplication, it's the topmost and any change here can be propagated to all child's. 
     
+        Style sheets that applied to an individual widget will not appers on the inspector.
 
 
-Search bar to help find specific types or names 
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Style sheet can be changed in runtime (Pressing CTRL+S)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    .. image::  https://github.com/williamjamir/demo_qt_inspector/blob/williamjamir-patch-1/images/runtime_600.gif
+        :width: 10px
+        :height: 10px
+        :scale: 10 %
+
+Search bar to help find specific types or names (Pressing F3)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     .. image:: https://github.com/williamjamir/demo_qt_inspector/blob/williamjamir-patch-1/images/search_small_480.gif
         :width: 10px
         :height: 10px
         :scale: 10 %
 
-Can undo/redo changes
-^^^^^^^^^^^^^^^^^^^^^
+Can undo/redo changes (Pressing CTRL+ALT+Z or CTRL+ALT+Y)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+       
+    .. image:: https://github.com/williamjamir/demo_qt_inspector/blob/williamjamir-patch-1/images/undo_redo_600.gif
+        :width: 10px
+        :height: 10px
+        :scale: 10 %
     
 
 
 Observation
 -----------
 
- - It need PyQt5 to work but it doesn't have it as a dependency, as testing with PyQt5 pypi proved
-unreliable (may be changed in the future).
-
- - The inspector only checks for style sheets that was applied to the QApplication, since it's the topmost and any change here can be propagated to all child's. Therefore any style sheets that was applied to an individual widget will not appers on the inspector.
-
+    It need PyQt5 to work but it doesn't have it as a dependency.
+    
 
 * Free software: MIT license
